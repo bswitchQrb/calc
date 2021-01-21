@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CALCULATOR</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- ここから~~-->
+  <!-- これ書けばlatexの表現が使える  -->
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+  <!-- これ書けばlatexの表現が使える  -->
+  <!-- ~~ここまで -->
+</head>
+<body>
+<center>
+  <div id="decimalToN" v-cloak>
+    <h1>10進法からn進法</h1>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="n10"/>
+    → {{n2}}
+    <button v-if="selected == '2進法にする！'" v-on:click="calc10to2(n10)">CALC</button>
+    <button v-else-if="selected == '7進法にする！'" v-on:click="calc10to7(n10)">CALC</button>
+    <button v-else-if="selected == '16進法にする！'" v-on:click="calc10to16(n10)">CALC</button>
+    <br>
+    <select v-model="selected">
+      <option disabled value="">基数を選んでね</option>
+      <option>2進法にする！</option>
+      <option>7進法にする！</option>
+      <option>16進法にする！</option>
+    </select>
+  </div>
+
+  <div id="nToDecimal" v-cloak>
+    <h1>n進法から10進法</h1>
+    <input type="text" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="n"/>
+    → {{n10}}
+    <button v-if='selected == "2進法から10進法！"' v-on:click="calc2to10(n)">CALC</button>
+    <button v-else-if='selected == "7進法から10進法！"' v-on:click="calc7to10(n)">CALC</button>
+    <button v-else-if='selected == "16進法から10進法！"' v-on:click="calc16to10(n)">CALC</button>
+    <br>
+    <select v-model="selected">
+      <option disabled value="">基数を選んでね</option>
+      <option>2進法から10進法！</option>
+      <option>7進法から10進法！</option>
+      <option>16進法から10進法！</option>
+    </select>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="calc.js"></script>
+</center>
+</body>
+</html>
