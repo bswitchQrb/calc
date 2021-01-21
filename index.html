@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CALCULATOR</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- ここから~~-->
+  <!-- これ書けばlatexの表現が使える  -->
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+  <!-- これ書けばlatexの表現が使える  -->
+  <!-- ~~ここまで -->
+</head>
+<body>
+<center>
+  <div id="calculator" v-cloak>
+    <h1>二項演算</h1>
+    <p> {{ num1 }} {{selected}} {{ num2 }}</p>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number ="num1"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="num2"/>
+    <button v-if="selected === '+' " v-on:click="calcSum">CALC</button>
+    <button v-else-if="selected === '-' " v-on:click="calcDifference">CALC</button>
+    <button v-else-if="selected === '*' " v-on:click="calcProduct">CALC</button>
+    <button v-else-if="selected === '/' " v-on:click="calcQuotient">CALC</button>
+    <button v-else-if="selected === '%' " v-on:click="calcRemainder">CALC</button>
+    <p> {{ answer }}</p>
+    <select v-model="selected" style="width:70px;" >
+      <option disabled value="">Please select one</option>
+      <option>+</option>
+      <option>-</option>
+      <option>*</option>
+      <option>/</option>
+      <option>%</option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+    <br>
+    <br>
+  </div>
+
+  <div id="calc2Determinant" v-cloak>
+    <h1>2×2行列式計算</h1>
+    <h2>
+      \[
+      \mathrm{det}A = \left|
+        \begin{array}{cc}
+          a_{11} & a_{12} \\
+          a_{21} & a_{22} \\
+        \end{array}
+      \right|
+      \]
+    </h2>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="num1"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="num2"/>
+    <br>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number ="num3"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="num4"/>
+    <br>
+    <button v-on:click="calc22(num1, num2, num3, num4)">CALC</button>
+    <!-- いつかは次元追加ボタン作りたいなぁ。。。 -->
+    <!-- <button v-on:click="incrementWidth">行++</button>
+    <button v-on:click="incrementHeight">列++</button> -->
+    <p>{{answer}}</p>
+  </div>
+
+  <div id="calc3Determinant" v-cloak>
+    <h1>3×3行列式計算</h1>
+    <h2>
+      \[
+      \mathrm{det}A = \left|
+        \begin{array}{ccc}
+          a_{11} & a_{12} & a_{13}\\
+          a_{21} & a_{22} & a_{23}\\
+          a_{31} & a_{32} & a_{33}\\
+        \end{array}
+      \right|
+      \]
+    </h2>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a11"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a12"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a13"/>
+    <br>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a21"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a22"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a23"/>
+    <br>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a31"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a32"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a33"/>
+    <br>
+    <button v-on:click="calc33(a11, a12, a13, a21, a22, a23, a31, a32, a33)">CALC</button>
+    <p>{{answer}}</p>
+  </div>
+
+  <div id="calc4Determinant" v-cloak>
+    <h1>4×4行列式計算</h1>
+    <h2>
+      \[
+      \mathrm{det}A = \left|
+        \begin{array}{cccc}
+          a_{11} & a_{12} & a_{13} & a_{14}\\
+          a_{21} & a_{22} & a_{23} & a_{24}\\
+          a_{31} & a_{32} & a_{33} & a_{34}\\
+          a_{41} & a_{42} & a_{43} & a_{44}\\
+        \end{array}
+      \right|
+      \]
+    </h2>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a11"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a12"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a13"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a14"/>
+    <br>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a21"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a22"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a23"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a24"/>
+    <br>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a31"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a32"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a33"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a34"/>
+    <br>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a41"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a42"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a43"/>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="a44"/>
+    <br>
+    <button v-on:click="calc44(a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44)">CALC</button>
+    <p>{{answer}}</p>
+  </div>
+
+  <div id="decimalToN" v-cloak>
+    <h1>10進法からn進法</h1>
+    <input type="number" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="n10"/>
+    → {{n2}}
+    <button v-if="selected == '2進法にする！'" v-on:click="calc10to2(n10)">CALC</button>
+    <button v-else-if="selected == '7進法にする！'" v-on:click="calc10to7(n10)">CALC</button>
+    <button v-else-if="selected == '16進法にする！'" v-on:click="calc10to16(n10)">CALC</button>
+    <br>
+    <select v-model="selected">
+      <option disabled value="">基数を選んでね</option>
+      <option>2進法にする！</option>
+      <option>7進法にする！</option>
+      <option>16進法にする！</option>
+    </select>
+  </div>
+
+  <div id="nToDecimal" v-cloak>
+    <h1>n進法から10進法</h1>
+    <input type="text" style="width:70px;" onclick="this.select(0,this.value.length)" v-model.number="n"/>
+    → {{n10}}
+    <button v-if='selected == "2進法から10進法！"' v-on:click="calc2to10(n)">CALC</button>
+    <button v-else-if='selected == "7進法から10進法！"' v-on:click="calc7to10(n)">CALC</button>
+    <button v-else-if='selected == "16進法から10進法！"' v-on:click="calc16to10(n)">CALC</button>
+    <br>
+    <select v-model="selected">
+      <option disabled value="">基数を選んでね</option>
+      <option>2進法から10進法！</option>
+      <option>7進法から10進法！</option>
+      <option>16進法から10進法！</option>
+    </select>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="calc.js"></script>
+</center>
+</body>
+</html>
